@@ -1,0 +1,215 @@
+---
+title: "R Notebook"
+output:
+  pdf_document: default
+  html_notebook: default
+  word_document: default
+---
+
+
+
+## Visualization 
+1. Bar
+2. Pie
+3. Line graph
+4. Box plot
+5. Different type of curves
+6. Heatmap
+7. scatter plot
+8. histogram
+
+```{r}
+iris = read.csv("../datasets/iris.csv")
+head(iris)
+```
+
+### Boxplot
+```{r}
+
+library(ggplot2)
+
+ggplot(data = iris, aes(x = variety, y=sepal.length, fill = variety)) + 
+  geom_boxplot() + 
+  scale_fill_manual(values = c("Setosa" = "orange", "Versicolor" = "purple", "Virginica" = "green"))+ # fix this later
+  labs(title = "Box plot of Iris dataset", y = "Sepal Length", x = "Species") + 
+  theme_minimal()
+
+```
+
+### Violin plot
+
+```{r}
+ggplot(data = iris, aes(x = variety, y=sepal.length, fill = variety)) + 
+  geom_violin()+ 
+  scale_fill_manual(values = c("Setosa" = "orange", "Versicolor" = "purple", "Virginica" = "green"))+ # fix this later
+  labs(title = "Box plot of Iris dataset", y = "Sepal Length", x = "Species") + 
+  theme_minimal()
+```
+
+
+```{r}
+ggplot(data = iris, aes(x = variety, y=sepal.length, color = variety)) + 
+  geom_point() +
+  scale_color_manual(values = c("Setosa" = "orange", "Versicolor" = "purple", "Virginica" = "green"))+ # fix this later
+  theme_minimal()
+```
+
+```{r}
+ggplot(data = iris, aes(x = petal.length, y=sepal.length, color = variety)) + 
+  geom_point() +
+  theme_minimal()
+```
+
+
+```{r}
+ggplot(data = iris, aes(x = sepal.width, y=sepal.length, color = variety)) + 
+  geom_point() +
+  theme_minimal()
+```
+
+```{r}
+summary(iris)
+```
+
+```{r}
+ggplot(data = iris, aes(x = variety, fill = variety) ) + 
+  geom_bar() +
+  theme_minimal()
+```
+
+```{r}
+ggplot(data = iris, aes(x = "", fill = variety)) + 
+  geom_bar(stat = "count") + 
+  coord_polar(theta = "y") + 
+  theme_minimal()
+```
+
+
+
+### Heat map
+
+```{r}
+cor_mat = cor(iris[ ,1:4])
+cor_mat
+```
+
+```{r}
+library(ggcorrplot)
+ggcorrplot(cor_mat)
+```
+
+```{r}
+ggcorrplot(cor_mat, type="lower")
+```
+
+
+```{r}
+ggcorrplot(cor_mat, type="lower", lab = TRUE)
+```
+
+```{r}
+ggcorrplot(cor_mat, type="upper", lab = TRUE)
+```
+
+
+```{r}
+ggcorrplot(cor_mat, type="upper", lab = TRUE, colors = c("red", "white", "skyblue"))
+```
+
+
+
+### time series data visulization - curve graph
+
+```{r}
+
+time = seq(1, 150)
+time
+
+iris = cbind(iris, time)
+head(iris)
+```
+
+
+```{r}
+ggplot(iris, aes(x = time, y = sepal.length, color = variety)) + 
+  geom_line() +
+  theme_minimal()
+```
+
+```{r}
+time50 = seq(1, 50)
+time150 = c(time50, time50, time50)
+time150
+
+
+iris = cbind(iris, time150)
+head(iris)
+```
+
+
+```{r}
+ggplot(iris, aes(x = time150, y = sepal.length, color = variety)) + 
+  geom_line() +
+  theme_minimal()
+```
+
+
+
+```{r}
+ggplot(iris, aes(x = sepal.length)) + 
+  geom_histogram(fill = "lightblue", color="black", binwidth = 0.5)
+```
+
+
+
+```{r}
+library(GGally)
+
+ggpairs(iris[ , 1:5], aes(color=variety))
+```
+
+
+
+
+
+
+```{r}
+iris_violin =   ggplot(data = iris, aes(x = variety, y=sepal.length, fill = variety)) + 
+  geom_violin()+ 
+  labs(title = "Box plot of Iris dataset", y = "Sepal Length", x = "Species") + 
+  theme_minimal()
+
+iris_violin
+```
+
+
+```{r}
+library(plotly)
+
+ggplotly(iris_violin)
+```
+
+
+
+```{r}
+scatter_iris = ggplot(data = iris, aes(x = sepal.width, y=sepal.length, color = variety)) + 
+  geom_point() +
+  theme_minimal()
+
+
+ggplotly(scatter_iris)
+```
+
+
+```{r}
+line_iris = ggplot(iris, aes(x = time, y = sepal.length, color = variety)) + 
+  geom_line() +
+  theme_minimal()
+
+ggplotly(line_iris)
+```
+
+
+
+## chord diagram
+## global map plot
